@@ -11,6 +11,11 @@ const Schema = mongoose.Schema;
  */
 
 const userProfileSchema = new Schema({
+    
+    user_id : {
+        type : String,
+        required : true
+    },
     first_name : {
         type : String,
         required : false
@@ -35,17 +40,13 @@ const userProfileSchema = new Schema({
  * User account login information
  */
 const userAccountSchema = new Schema({
-    user_id : {
-        type : String,
-        required : true
-    },
     email : {
         type : String,
-        required : true
+        required : false
     },
     password : {
         type : String,
-        required : true
+        required : false
     }
 },{timestamps : true});
 
