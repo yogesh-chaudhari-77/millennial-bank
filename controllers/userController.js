@@ -21,8 +21,8 @@ const login_post = (req, res) => {
     // 
     const account_found = function(err, user_account_doc){
         if(user_account_doc != null){
-
-            userModel.userProfile.findById(""+user_account_doc.user_id).then( (user_profile_doc) => {
+            console.log(user_account_doc);
+            userModel.userProfile.findById(""+user_account_doc._id).then( (user_profile_doc) => {
                 res.send({status : "success", user_account : user_account_doc, user_profile : user_profile_doc});
 
             }).catch( (err) => {
@@ -35,7 +35,7 @@ const login_post = (req, res) => {
     }
 
     // Find user account with given email and password
-    userModel.userAccount.findOne({email: req.params.email, password : req.params.password}, account_found);
+    userModel.userAccount.findOne({email: req.fields.email, password : req.fields.password}, account_found);
 
 }
 
@@ -47,9 +47,9 @@ const signup_post = (req, res) => {
 
     var new_user_id = "";
 
-    console.log(req.body);
+    console.log(req.fields);
 
-    userModel.userAccount.findOne({ email: req.body.email }, function (err, user_account) {
+    userModel.userAccount.findOne({ email: req.fields.email }, function (err, user_account) {
 
         // If the document with this email id is found, abort the request.
         if (user_account != null) {
@@ -59,8 +59,8 @@ const signup_post = (req, res) => {
 
         // Forming user account
         var new_user_account = new userModel.userAccount({
-            email: req.body.email,
-            password: req.body.password
+            email: req.fields.email,
+            password: req.fields.password
         });
 
         // Create user account
@@ -72,9 +72,9 @@ const signup_post = (req, res) => {
             // Forming user profile
             var new_user_profile = new userModel.userProfile({
                 user_id: new_user_id,                   // Using user id created at account creation time
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                email: req.body.email
+                first_name: req.fields.first_name,
+                last_name: req.fields.last_name,
+                email: req.fields.email
             });
 
             // Create user profile

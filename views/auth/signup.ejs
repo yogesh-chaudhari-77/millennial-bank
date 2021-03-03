@@ -27,7 +27,7 @@
         ajaxRequest.onreadystatechange = function (){
             if(ajaxRequest.readyState == 4 && ajaxRequest.status == 200){
 				var response = JSON.parse(ajaxRequest.responseText);
-				if(response.status === "success") {
+				if(response.status == "success") {
                     setTimeout(function(){window.location = "http://localhost:3000/dashboard/user";},2000);
                 }else{
                     console.error(ajaxRequest.responseText);
@@ -35,7 +35,7 @@
             }
         }
 
-        send_request(ajaxRequest, "post", "http://localhost:3000/signup/submit", formdata);
+        send_request(ajaxRequest, "POST", "http://localhost:3000/signup/submit", formdata);
     }
 </script>
 

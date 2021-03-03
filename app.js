@@ -2,6 +2,9 @@ var createError = require('http-errors');
 
 // Lightweight web service based node framework
 const express = require('express');
+const os = require("os");
+
+const formidableMiddleware = require('express-formidable');
 
 // MongoDB ODM for node
 const mongoose = require('mongoose');
@@ -29,7 +32,8 @@ app.use(express.static("public"));
 app.use(express.static("node_modules"));
 
 // For accesing post variables
-app.use(express.urlencoded({ extended: true }));
+app.use(formidableMiddleware());
+
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
