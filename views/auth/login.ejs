@@ -1,6 +1,40 @@
 <!doctype html>
 <html lang="en">
 
+  <script>
+    /*
+        Accepts user credentials and sends it for creating user account
+     */
+    function login_submit() {
+
+      event.preventDefault();
+
+      var ajaxRequest = ajaxFunction();
+
+      // Currently there are no validations in place, but we will be introducing some as and when we go
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      var formdata = new FormData();
+      formdata.append("email", email);
+      formdata.append("password", password);
+
+      // Post processing after response from server
+      ajaxRequest.onreadystatechange = function () {
+        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+          var response = JSON.parse(ajaxRequest.responseText);
+          if (response.status === "success") {
+            setTimeout(function () { window.location = "http://localhost:3000/dashboard/user"; }, 2000);
+          } else {
+            console.error(ajaxRequest.responseText);
+          }
+        }
+      }
+
+      send_request(ajaxRequest, "post", "http://localhost:3000/login/submit");
+    }
+  </script>
+
 <!--Head tag goes here -->
 <%- include('./../templates/head.ejs'); %>
 
@@ -10,15 +44,29 @@
 
         <!-- Actual body goes here -->
         <div class="container">
-            <div class="card">
+          <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Authenticate</h4>
-                  <h6 class="card-subtitle mb-2 text-muted"></h6>
-                  <p class="card-text"></p>
-                  <a href="#" class="card-link">T&amp;C</a>
-                  <a href="#" class="card-link">Privacy Policy</a>
+                    <form class="login_form">
+                      <label class="control-label" for="email">Email:</label>
+                      <input type="text" class="form-control input-sm" id="email" />
+                      <label class="control-label" for="email">Password:</label>
+                      <input type="password" class="form-control input-sm" id="password" />
+                      <br/>
+                      <div class="text-center">
+                        <button class="btn form-control btn-success" onclick="login_submit();">Login</button>
+                      </div>
+                    </form>
                 </div>
               </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
         </div>
         <!-- Actual body ends here-->
 
